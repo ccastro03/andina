@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class Escolaridad extends Migration
+class CreateClientesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,12 @@ class Escolaridad extends Migration
      */
     public function up()
     {
-        Schema::create('escolaridad', function (Blueprint $table) {
-            $table->bigIncrements('id_escolaridad');
-            $table->string('escolaridad_nombre', 80);
-            $table->string('estado', 1);
+        Schema::create('clientes', function (Blueprint $table) {
+            $table->string('codigo',15)->unique();
+            $table->string('nombre', 80);
+            $table->string('email', 30);
+            $table->string('telefono',20);
+            $table->string('password');
         });
     }
 
@@ -27,6 +29,6 @@ class Escolaridad extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('escolaridad');
+        Schema::dropIfExists('clientes');
     }
 }

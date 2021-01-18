@@ -20,7 +20,7 @@
                     </div>                                   
                 </div>
                 <div class="card-footer">
-                    <button class="button primary ml-auto" onclick='proceso()'>Procesar</button>                
+                    <button class="button primary ml-auto" onclick='proceso()'>Procesar</button>
                 </div>                
             </div>
         </div>
@@ -42,6 +42,7 @@
             arrayNumeros.sort(function(a,b){return b - a;});
 
             var lista = document.getElementById("res"); 
+            lista.innerHTML = "";
 
             arrayNumeros.forEach(function(data,index){
                 var linew = document.createElement("span");

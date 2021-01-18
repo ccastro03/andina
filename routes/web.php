@@ -13,8 +13,14 @@ Route::get('/inicio', 'inicioController@index');
 
 Route::get('/vectores', 'vectorController@index');
 Route::get('/potencia', 'potenciaController@index');
+Route::get('/smartcard', 'smartBandController@index');
+Route::get('/carrito', 'carritoController@index');
 
 Auth::routes();
+
+Route::get('/ingresar', 'clienteController@showLoginForm');
+Route::post('/cliente/login', 'clienteController@login');
+Route::post('/cliente/logout', 'clienteController@logout');
 
 Route::group(array('before' => 'auth'), function(){
 
@@ -24,5 +30,9 @@ Route::group(array('before' => 'auth'), function(){
     /*  USUARIOS  */
         Route::resource('/usuarios', 'usuariosController')->middleware('auth');
     /************/ 
+
+    /*  PRODCUTOS  */
+        Route::resource('/productos', 'ProductosController')->middleware('auth');
+    /************/     
 
 });

@@ -1,25 +1,14 @@
-<!doctype html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-<head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>{{ config('app.name', 'tollan-ya') }} | Log in  </title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+@extends('layouts.mainInicio')
 
-  <link rel="stylesheet" href="{{ asset('plugins/fontawesome-free/css/all.min.css') }}">
-  <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
-  <link rel="stylesheet" href="{{ asset('plugins/icheck-bootstrap/icheck-bootstrap.min.css') }}">
-  <link rel="stylesheet" href="{{ asset('css/adminlte.min.css') }}">
-  
-  <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
-</head>
-<body class="hold-transition login-page">
-  <div class="login-box">
-    <div class="card">
-      <div class="card-body login-card-body">
-        <p class="login-box-msg">Inicia sesión para comenzar</p>
+@section('contentInicio')
 
-        <form method="POST" action="{{ route('login') }}" class="my-0">
+<div class="row">
+  <div class="col-lg-12 col-md-12 col-sm-12 d-flex text-center">
+    <div class="card mx-auto w-50">
+      <div class="card-body">
+        <h4>Iniciar Sesión</h4>
+
+        <form method="POST" action="{{ url('/cliente/login') }}" class="my-0">
           @csrf
           <div class="row form-group">
             <div class="input-group mb-3" style="margin-bottom: 0px !important;">
@@ -47,19 +36,14 @@
 
           <div class="row">
             <div class="col-8 mx-auto">
-              <button class="btn btn-primary ml-auto btn-block">Ingresar</button>
+              <button class="button primary ml-auto btn-block">Ingresar</button>
             </div>
           </div
           >
         </form>
       </div>
-      </div>
     </div>
   </div>
+</div>
 
-	<script src="{{ asset('js/jquery.js') }}"></script>
-	<script src="{{ asset('plugins/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-  <script src="{{ asset('js/adminlte.js') }}"></script>	
-</body>
-</html>
-
+@endsection

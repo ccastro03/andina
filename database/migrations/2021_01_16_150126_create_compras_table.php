@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class Etnia extends Migration
+class CreateComprasTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,12 @@ class Etnia extends Migration
      */
     public function up()
     {
-        Schema::create('etnia', function (Blueprint $table) {
-            $table->bigIncrements('id_etnia');
-            $table->string('etnia_nombre', 80);
-            $table->string('estado', 1);
+        Schema::create('compras', function (Blueprint $table) {
+            $table->integer('compra_id');
+            $table->string('codigo',15);
+            $table->integer('producto_id');
+            $table->date('compra_fecha');
+            $table->string('compra_estado');
         });
     }
 
@@ -27,6 +29,6 @@ class Etnia extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('etnia');
+        Schema::dropIfExists('compras');
     }
 }

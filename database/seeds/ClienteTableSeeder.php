@@ -1,9 +1,9 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use App\User;
+use App\clientes;
 
-class UserTableSeeder extends Seeder
+class ClienteTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -12,10 +12,10 @@ class UserTableSeeder extends Seeder
      */
     public function run()
     {
-        $user = new User();
-        $user->codigo = 'Admin';
-        $user->nombre = 'Administrador';
-        $user->email = 'algo@algo.com';
+        $user = new clientes();
+        $user->codigo = 'prb';
+        $user->nombre = 'Pruebas';
+        $user->email = 'prb@gmail.com';
         $user->password = bcrypt('1234');
         $user->telefono = '123456789';
         $user->save();     

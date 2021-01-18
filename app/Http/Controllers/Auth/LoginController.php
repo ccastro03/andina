@@ -40,6 +40,16 @@ class LoginController extends Controller
 
     public function username()
     {
-        return 'usuario_id';
+        return 'codigo';
     }   
+
+    public function guardia()
+    {
+        return 'web';
+    }      
+
+    public function redireccion()
+    {
+        return '/administrador';
+    }     
 }

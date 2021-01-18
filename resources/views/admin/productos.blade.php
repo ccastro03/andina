@@ -1,29 +1,28 @@
 @extends('layouts.mainAdmin')
 
 @section('contentAdmin')
-    <div id="pnlEscolaridad" class="row">
+    <div id="pnlProd" class="row">
         <div class="col-lg-12 col-md-12 col-sm-12">
             <div class="card card-primary card-outline">
                 <div class="card-header">
-                    <h5 class="card-title"><span id="titPnl"></span> Escolaridad</h5>
+                    <h5 class="card-title"><span id="titPnl"></span> Producto</h5>
                 </div>
                 <div class="card-body">
                     <div class="row">
                         <div class="col-lg-3 col-md-3 col-sm-3 form-group">
-                            <label for="nombre" class="">Nombre</label>
-                            <input name="nombre" id="nombre" type="text" class="form-control">
+                            <label for="referencia" class="">Referencia</label>
+                            <input name="referencia" id="referencia" type="text" class="form-control">
                         </div>
                         <div class="col-lg-3 col-md-3 col-sm-3">
-                            <div class="position-relative form-group">
-                                <label for="selEstado" class="">Estado</label>
-                                <select name="selEstado" id="selEstado" class="form-control">
-                                    <option value="1">Activo</option>
-                                    <option value="0">Inactivo</option>
-                                </select>
-                            </div>
+                            <label for="descripcion">Descripción</label>
+                            <textarea class="form-control" id="descripcion" rows="3"></textarea>
                         </div>
+                        <div class="col-lg-3 col-md-3 col-sm-3">
+                            <label for="vlrUni">Valor Unitario</label>
+                            <input name="vlrUni" id="vlrUni" type="text" class="form-control">
+                        </div>                        
 
-                        <input name="idEscol" id="idEscol" type="text" class="form-control" hidden>
+                        <input name="idProd" id="idProd" type="text" class="form-control" hidden>
                         <input name="accion" id="accion" type="text" class="form-control" hidden>
                     </div>
                     <div class="row">
@@ -39,12 +38,12 @@
         <div class="col-lg-12 col-md-12 col-sm-12">
             <div class="card card-primary card-outline">
                 <div class="card-header">
-                    <h3 class="card-title">Listado de Escolaridades</h3>
+                    <h3 class="card-title">Listado de Productos</h3>
 
                     <div class="card-tools">
                         <ul class="nav nav-pills ml-auto">
                             <li class="nav-item">
-                                <button class="btn btn-primary" onclick='nuevo()'>Nueva</button>
+                                <button class="btn btn-primary" onclick='nuevo()'>Nuevo</button>
                             </li>
                         </ul>
                     </div>
@@ -52,11 +51,13 @@
 
                 <div class="card-body">
                     <div class="table-responsive" style="width: 100% !important;">                    
-                        <table class="table display table-striped table-bordered" style="width: 100% !important;" id="tablaEscolaridad">
+                        <table class="table display table-striped table-bordered" style="width: 100% !important;" id="tablaProducto">
                             <thead>
                                 <tr>
-                                    <th>Nombre</th>
-                                    <th>Estado</th>
+                                    <th>Id</th>
+                                    <th>Referencia</th>
+                                    <th>Descripción</th>
+                                    <th>Valor Unitario</th>
                                     <th>Opciones</th>
                                 </tr>
                             </thead>
@@ -69,9 +70,9 @@
 
     <script>
         $(function() {
-            $("#pnlEscolaridad").hide();
+            $("#pnlProd").hide();
 
-            let table = $('#tablaEscolaridad').DataTable({
+            let table = $('#tablaProducto').DataTable({
                 "language": {
                     "emptyTable":			"No hay datos disponibles en la tabla.",
                     "info":		   		"Del _START_ al _END_ de _TOTAL_ ",
@@ -97,16 +98,12 @@
                 },            
                 processing: true,
                 serverSide: true,
-                ajax: "{{ url('/escolaridad/show') }}",
+                ajax: "{{ url('/productos/show') }}",
                 columns: [
-                    { data: 'escolaridad_nombre' },
-                    { render: function (data, type, JsonResultRow, meta) {
-                        var dato = "Inactivo";
-                        if(JsonResultRow['estado'] == 1){
-                            dato = "Activo";
-                        };
-                        return "<span>"+dato+"</span>";}
-                    },                    
+                    { data: 'id', visible:false },
+                    { data: 'referencia' },                    
+                    { data: 'descripcion' },
+                    { data: 'valor_unitario' },
                     { defaultContent: "<button class='btn btn-secondary' id='btnedit' data-placement='bottom' data-html='true' title='Modificar' onclick='editar()' type='button'>"+
                         "<i class='fas fa-pencil-alt'></i></button> &nbsp; "+
                         "<button class='btn btn-danger' data-placement='bottom' data-html='true' title='Eliminar' onclick='eliminar()' type='button'>"+
@@ -115,7 +112,7 @@
                 "order": [[1, 'asc']]          
             });
 
-            $('#tablaEscolaridad tbody').on( 'click', 'tr', function () {
+            $('#tablaProducto tbody').on( 'click', 'tr', function () {
                 if ( $(this).hasClass('selected') ) {
                     $(this).removeClass('selected');
                 }
@@ -128,49 +125,67 @@
 
         function nuevo(){
             limpiarCampos();
-            $("#pnlEscolaridad").fadeIn(900);
+            $("#pnlProd").fadeIn(900);
             $("#accion").val('1');
-            $("#nombre").focus();        
+            $("#referencia").focus();
         };
 
         function cancelar(){
             limpiarCampos();
-            $("#pnlEscolaridad").fadeOut(300);
+            $("#pnlProd").fadeOut(300);
         };
 
         function limpiarCampos(){
-            $("#nombre").val('');
-            $("#selEstado").val('1');
+            $("#referencia").val('');
+            $("#descripcion").val('');
+            $("#vlrUni").val('');
         };
 
         function guardar(){
-            var nombre = document.getElementById("nombre").value;
-            var estado = document.getElementById("selEstado").value;
-            var idEscol = document.getElementById("idEscol").value;
+            var referencia = document.getElementById("referencia").value;
+            var descripcion = document.getElementById("descripcion").value;
+            var vlrUni = document.getElementById("vlrUni").value;
+            
+
+            var idProd = document.getElementById("idProd").value;
             var tipoAcc = document.getElementById("accion").value;        
             var msg = '';          
 
-            if(nombre == ''){
-                $('#nombre').addClass("is-invalid");
-                msg += '<em>El campo nombre debe estar lleno</em><br>';
+            if(referencia == ''){
+                $('#referencia').addClass("is-invalid");
+                msg += '<em>El campo referencia debe estar lleno</em><br>';
             }else{
-                $('#nombre').removeClass("is-invalid");
+                $('#referencia').removeClass("is-invalid");
             }
+
+            if(descripcion == ''){
+                $('#descripcion').addClass("is-invalid");
+                msg += '<em>El campo descripcion debe estar lleno</em><br>';
+            }else{
+                $('#descripcion').removeClass("is-invalid");
+            }
+
+            if(vlrUni == ''){
+                $('#vlrUni').addClass("is-invalid");
+                msg += '<em>El campo valor unitatio debe estar lleno</em><br>';
+            }else{
+                $('#vlrUni').removeClass("is-invalid");
+            }                        
 
             if(msg == ''){
                 if(tipoAcc == '1'){ // 1 - significa que esta insertando
                     $.ajax({
-                        url: "/escolaridad",
+                        url: "/productos",
                         type: 'POST',
-                        data: {'nombre':nombre,'estado':estado},
+                        data: {'referencia':referencia,'descripcion':descripcion,'vlruni':vlrUni},
                         headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
                         error: function(err) {
                             alertasCustom(4,'¡Error!',err.statusText+" : "+err.responseJSON['message']); // 1: success, 2:info, 3:warning, 4:error
                         },
                         success: function(res) {
                             alertasCustom(1,'¡Exito!',res); // 1: success, 2:info, 3:warning, 4:error
-                            $("#pnlEscolaridad").fadeOut(300);
-                            $('#tablaEscolaridad').DataTable().ajax.reload();
+                            $("#pnlProd").fadeOut(300);
+                            $('#tablaProducto').DataTable().ajax.reload();
                             limpiarCampos();
                             return false;
                         }
@@ -179,17 +194,17 @@
 
                 if(tipoAcc == '2'){ // 2 significa que esta actualizando
                     $.ajax({
-                        url: "/escolaridad/"+idEscol,
+                        url: "/productos/"+idProd,
                         type: 'PUT',
-                        data: {'nombre':nombre,'estado':estado},
+                        data: {'referencia':referencia,'descripcion':descripcion,'vlruni':vlrUni},
                         headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
                         error: function(err) {
                             alertasCustom(4,'¡Error!',err.statusText+" : "+err.responseJSON['message']); // 1: success, 2:info, 3:warning, 4:error
                         },
                         success: function(res) {
                             alertasCustom(1,'¡Exito!',res); // 1: success, 2:info, 3:warning, 4:error
-                            $("#pnlEscolaridad").fadeOut(300);
-                            $('#tablaEscolaridad').DataTable().ajax.reload();
+                            $("#pnlProd").fadeOut(300);
+                            $('#tablaProducto').DataTable().ajax.reload();
                             limpiarCampos();
                             return false;
                         }
@@ -201,8 +216,8 @@
         };
 
         function eliminar(){
-            var table = $('#tablaEscolaridad').DataTable();
-            $('#tablaEscolaridad tbody').on( 'click', 'tr', function () {
+            var table = $('#tablaProducto').DataTable();
+            $('#tablaProducto tbody').on( 'click', 'tr', function () {
                 var idx = table.row(this).index();
                 var arrData = table.row(idx).data();
 
@@ -216,7 +231,7 @@
                 .then((willDelete) => {
                     if (willDelete) {
                         $.ajax({
-                            url: "/escolaridad/"+arrData['id_escolaridad'],
+                            url: "/productos/"+arrData['id'],
                             type: 'DELETE',
                             data: {},
                             headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},                  
@@ -225,7 +240,7 @@
                             },
                             success: function(res) {
                                 mensajes('Exito!',res,'success');
-                                $('#tablaEscolaridad').DataTable().ajax.reload();
+                                $('#tablaProducto').DataTable().ajax.reload();
                                 return false;
                             }
                         });
@@ -235,19 +250,20 @@
         }; 
 
         function editar(){
-            var table = $('#tablaEscolaridad').DataTable();
-            $('#tablaEscolaridad tbody').on( 'click', 'tr', function () {
+            var table = $('#tablaProducto').DataTable();
+            $('#tablaProducto tbody').on( 'click', 'tr', function () {
                 var idx = table.row(this).index();
                 var arrData = table.row(idx).data();
 
-                $("#nombre").val(arrData['escolaridad_nombre']);
-                $("#selEstado").val(arrData['estado']);
-                $("#idEscol").val(arrData['id_escolaridad']);
+                $("#referencia").val(arrData['referencia']);
+                $("#descripcion").val(arrData['descripcion']);
+                $("#vlrUni").val(arrData['valor_unitario']);
+                $("#idProd").val(arrData['id']);
                 $("#accion").val('2');
             });
 
-            $("#pnlEscolaridad").fadeIn(900);
-            $("#nombre").focus();
+            $("#pnlProd").fadeIn(900);
+            $("#referencia").focus();
         };        
     </script>  
 @endsection
