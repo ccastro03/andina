@@ -20,5 +20,5 @@ class User extends Authenticatable
 
     protected $table = 'usuarios';
     public $timestamps = false;
-    protected $primaryKey = "codigo";
+    protected $primaryKey = "id";
 }

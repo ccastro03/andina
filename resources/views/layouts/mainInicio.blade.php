@@ -7,6 +7,9 @@
 
 		<link rel="stylesheet" href="{{ asset('bootstrap/css/bootstrap.min.css') }}" />
 		<link rel="stylesheet" href="{{ asset('css/main.css') }}" />
+		<link rel="stylesheet" href="{{ asset('css/style.css') }}" />
+
+		<meta name="csrf-token" content="{{ csrf_token() }}">
 	</head>
 	<body class="is-preload">
 
@@ -46,7 +49,6 @@
 									<li><a href="/inicio">Inicio</a></li>
 									<li><a href="/vectores">Ordenamiento Vectores</a></li>
 									<li><a href="/potencia">Potenciación</a></li>
-									<li><a href="/smartcard">Smart Card</a></li>
 									<li><a href="/carrito">Carrito de Compras</a></li>
 								</ul>
 							</nav>
@@ -61,6 +63,18 @@
             <script src="{{ asset('js/breakpoints.min.js') }}"></script>
             <script src="{{ asset('js/util.js') }}"></script>
 			<script src="{{ asset('js/main.js') }}"></script>
+			<script src="{{ asset('js/sweetAlert.js') }}"></script>
 
+		<script>
+			function alertasCustom($tipo,$titulo,$texto){
+				swal({
+					title: $titulo,
+					text: $texto,
+					icon: $tipo,
+					buttons: false,
+					timer: 3000,
+				});
+			};			
+		</script>
 	</body>
 </html>

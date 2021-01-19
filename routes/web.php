@@ -16,11 +16,20 @@ Route::get('/potencia', 'potenciaController@index');
 Route::get('/smartcard', 'smartBandController@index');
 Route::get('/carrito', 'carritoController@index');
 
+Route::get('/detalleCarrito', 'detalleCarritoController@index');
+
+Route::post('/agregarProducto', 'frontController@agregarProducto');
+Route::post('/limpiarCarrito', 'frontController@limpiarCarrito');
+Route::post('/terminarCompra', 'frontController@terminarCompra');
+Route::post('/eliminarProducto', 'frontController@eliminarProducto');
+
 Auth::routes();
 
 Route::get('/ingresar', 'clienteController@showLoginForm');
+Route::get('/registrar', 'clienteController@showRegistroForm');
+
 Route::post('/cliente/login', 'clienteController@login');
-Route::post('/cliente/logout', 'clienteController@logout');
+Route::post('/cliente/registro', 'clienteController@registro');
 
 Route::group(array('before' => 'auth'), function(){
 

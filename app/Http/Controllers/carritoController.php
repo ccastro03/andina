@@ -9,6 +9,10 @@ class carritoController extends Controller
 {
     public function index()
     {        
-        return view('front.carrito');
+        $productos = DB::table('productos')->get();
+
+        return view('front.carrito', [
+            'productos' => $productos,
+        ]);        
     }
 }

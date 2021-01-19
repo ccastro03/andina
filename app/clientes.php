@@ -20,5 +20,5 @@ class clientes extends Authenticatable
 
     protected $table = 'clientes';
     public $timestamps = false;
-    protected $primaryKey = "codigo";
+    protected $primaryKey = "id";
 }

@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\clientes;
 use App\Http\Requests;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+
 
 class clienteController extends Controller
 {
@@ -16,7 +18,12 @@ class clienteController extends Controller
     public function loginView()
     {
         return 'auth.loginCarrito';
-    }      
+    } 
+    
+    public function showRegistroForm()
+    {
+        return view('auth.registro');
+    }    
 
     public function username()
     {
@@ -45,5 +52,18 @@ class clienteController extends Controller
         $request->session()->regenerate();
         return redirect('/carrito');
     }
+
+    public function registro(Request $request)
+    {
+        $user = new clientes();
+        $user->codigo = $request['usuario'];
+        $user->nombre = $request['nombre'];
+        $user->email = $request['mail'];
+        $user->password = bcrypt($request['password']);
+        $user->telefono = $request['tele'];
+        $user->save();  
+
+        return 'Cliente Registrado Correctamente';
+    }    
 
 }
